@@ -1,0 +1,67 @@
+// { Driver Code Starts
+// Initial template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+// User function template for C++
+
+class Solution{
+    public:
+    void dfs(int x,int y, string curr_path,vector<string>&ans,vector<vector<int>>m,int n){
+       if(x<0||y<0||x==n||y==n||m[x][y]!=1){
+            return;
+        }
+        
+        if(x==n-1&& y==n-1){
+            ans.push_back(curr_path);
+                 return; 
+        }
+        
+        m[x][y]=-1;
+        dfs(x+1,y,curr_path+'D',ans,m,n);
+        dfs(x,y-1,curr_path+'L',ans,m,n);
+        dfs(x,y+1,curr_path+'R',ans,m,n);
+        dfs(x-1,y,curr_path+'U',ans,m,n);
+        m[x][y]=1;
+    }
+    vector<string> findPath(vector<vector<int>> &m, int n) {
+        // Your code goes here
+        vector<string>ans;
+        dfs(0,0,"",ans,m,n);
+        
+        return ans;
+       
+    }
+};
+
+    
+
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<int>> m(n, vector<int> (n,0));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                cin >> m[i][j];
+            }
+        }
+        Solution obj;
+        vector<string> result = obj.findPath(m, n);
+        sort(result.begin(), result.end());
+        if (result.size() == 0)
+            cout << -1;
+        else
+            for (int i = 0; i < result.size(); i++) cout << result[i] << " ";
+        cout << endl;
+    }
+    return 0;
+}  // } Driver Code Ends
